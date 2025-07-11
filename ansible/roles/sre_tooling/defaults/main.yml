@@ -1,0 +1,5 @@
+#SPDX-License-Identifier: MIT-0
+---
+# default variables for sre-tooling
+# hostname: hostname
+go_version: 1.23.8

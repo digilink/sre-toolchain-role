@@ -1,0 +1,8 @@
+- name: SRE tooling setup
+  hosts: all
+  gather_facts: yes
+
+  tasks:
+    - name: Run SRE tooling role
+      import_role:
+        name: roles/sre_tooling
