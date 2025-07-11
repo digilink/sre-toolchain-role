@@ -14,4 +14,3 @@ go_version: 1.23.8
 homebrew_packages:
   - wezterm
   - mise
-  - direnv
