@@ -4,42 +4,10 @@
 - name: Ping machine to ensure availability
   ansible.builtin.ping:
 
-# optional, may not stick!!!
-- name: Set hostname
-  ansible.builtin.hostname:
-    name: "{{ hostname }}"
-  when: hostname is defined
-  become: true
+- name: Run lenvo config
+  include_tasks: lenovo_os.yml
+  when: ansible_os_family == "RedHat"
 
-- name: Allow users and service accounts to sudo nopasswd
-  community.general.sudoers:
-    name: allow-sudo
-    state: present
-    group: wheel
-    commands: ALL
-    nopassword: true
-  become: true
-
-- name: Install backplane-tools if not present
-  ansible.builtin.command:
-    cmd: "go install github.com/openshift/backplane-tools@latest"
-  args:
-    creates: "{{ ansible_env.HOME }}/go/bin/backplane-tools"
-  changed_when: false # The 'creates' arg handles state change
-
-- name: Run backplane-tools installer if necessary
-  ansible.builtin.command:
-    cmd: "{{ ansible_env.HOME }}/go/bin/backplane-tools install all"
-  args:
-    # ⚠️ Replace 'ocm' with a real file created by the installer
-    creates: "{{ ansible_env.HOME }}/go/bin/ocm"
-  changed_when: false # The 'creates' arg handles state change
-
-- name: Add Go and Backplane paths to .bashrc
-  ansible.builtin.lineinfile:
-    path: "{{ ansible_env.HOME }}/.bashrc"
-    line: "export PATH=$PATH:$HOME/go/bin:$HOME/.local/bin/backplane/latest"
-    regexp: "^export PATH=.*:\\$HOME/go/bin:\\$HOME/\\.local/bin/backplane/latest$"
-    insertafter: EOF
-    create: false
-    mode: "0644"
+- name: Run mac config
+  include_tasks: mac_os.yml
+  when: ansible_os_family == "Darwin"
