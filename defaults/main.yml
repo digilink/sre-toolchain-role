@@ -2,4 +2,16 @@
 ---
 # default variables for sre-tooling
 # hostname: hostname
+
+### GLOBAL CONFIGS
 go_version: 1.23.8
+
+
+
+
+
+### MAC CONFIGS
+homebrew_packages:
+  - wezterm
+  - mise
+  - direnv
