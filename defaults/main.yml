@@ -22,5 +22,5 @@ dnf_packages:
 homebrew_packages:
   - wezterm
   - mise
-  - direnv
-  - zoxide
+
+homebrew_additional_packages: []

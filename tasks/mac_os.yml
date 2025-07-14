@@ -2,7 +2,7 @@
   community.general.homebrew:
     name: "{{ item }}"
     state: present
-  with_items: "{{ homebrew_packages }}"
+  with_items: "{{ homebrew_packages + homebrew_additional_packages }}"
 
 - name: Pull the dotfiles repo
   ansible.builtin.git:
