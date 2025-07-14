@@ -37,3 +37,22 @@
     insertafter: EOF
     create: false
     mode: "0644"
+
+- name: Import keys from a list of urls
+  ansible.builtin.rpm_key:
+    state: present
+    key: "{{ item }}"
+  loop: rpm_gpg_keys
+  become: true
+
+- name: Build vscode repo from template
+  ansible.builtin.template:
+    dest: /etc/yum.repos.d/vscode.repo
+    src: vscode.repo.j2
+  become: true
+
+- name: Install default OS packages
+  ansible.builtin.dnf:
+    name: "{{ dnf_packages }}"
+    state: installed
+  become: true

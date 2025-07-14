@@ -9,6 +9,14 @@ dotfile_git_url: ""
 
 
 
+### LENOVO CONFIGS
+
+rpm_gpg_keys:
+  - "https://packages.microsoft.com/keys/microsoft.asc"
+
+dnf_packages:
+  - code
+
 
 ### MAC CONFIGS
 homebrew_packages:
