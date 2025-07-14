@@ -6,7 +6,7 @@
 
 - name: Pull the dotfiles repo
   ansible.builtin.git:
-    repo: '{{ item}}'
+    repo: "{{ dotfile_git_url }}"
     dest: ~/.dotfiles
     update: yes
   when: dotfile_git_url
