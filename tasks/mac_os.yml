@@ -3,3 +3,10 @@
     name: "{{ item }}"
     state: present
   with_items: "{{ homebrew_packages }}"
+
+- name: Pull the dotfiles repo
+  ansible.builtin.git:
+    repo: '{{ item}}'
+    dest: ~/.dotfiles
+    update: yes
+  when: dotfile_git_url
