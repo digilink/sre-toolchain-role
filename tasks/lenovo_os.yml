@@ -1,9 +1,18 @@
-# optional, may not stick!!!
-- name: Set hostname
-  ansible.builtin.hostname:
-    name: "{{ hostname }}"
+- name: Set hostname 
+  ansible.builtin.ini_file:
+    path: /etc/ansible/facts.d/csb.fact
+    section: host
+    option: csb_hostname
+    value: "{{ hostname }}"
+    ignore_spaces: true
   when: hostname is defined
-  become: true
+  register: csb_hostname_change 
+  become: true 
+
+- name: Run csb cron if hostname changed 
+  ansible.builtin.command: sudo ansible-playbook /usr/share/csb-fedora/csb-cron.yml
+  when: csb_hostname_change.changed 
+  become: true 
 
 - name: Allow users and service accounts to sudo nopasswd
   community.general.sudoers:
