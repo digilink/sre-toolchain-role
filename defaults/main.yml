@@ -17,10 +17,17 @@ rpm_gpg_keys:
 dnf_packages:
   - code
 
+dnf_additional_packages: []
 
 ### MAC CONFIGS
 homebrew_packages:
   - wezterm
   - mise
+
+podman_machine:
+  - machine_name: "podman-machine-default"
+    cpus: "2"
+    memory: "2048"
+    disk_size: "20"
 
 homebrew_additional_packages: []

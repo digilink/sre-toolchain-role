@@ -27,3 +27,30 @@
   register: stow_output
   changed_when: "'LINK' in stow_output.stderr" 
   when: dotfile_git_url
+
+- name: Check if the Podman machine already exists
+  ansible.builtin.shell: "podman machine list --format json |jq -r '.[].Name'"
+  register: podman_machines
+  changed_when: podman_machines.stdout == "[]"
+
+- name: Create the Podman machine if it does not exist
+  ansible.builtin.command: >
+    podman machine init
+    --cpus {{ item.cpus }}
+    --memory {{ item.memory }}
+    --disk-size {{ item.disk_size }}
+    --now
+    {{ item.machine_name }}
+  loop: "{{ podman_machine }}"
+  when: "item.machine_name not in podman_machines.stdout_lines"
+
+## To make more idempotent, should add a task to ensure podman machine is running as well.
+
+- name: Grab current running podman machines
+  ansible.builtin.command: "podman machine list"
+  register: podman_status
+  changed_when: false
+
+- name: Show Podman machine status
+  ansible.builtin.debug:
+    var: podman_status.stdout_lines
