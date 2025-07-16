@@ -60,8 +60,8 @@
     src: vscode.repo.j2
   become: true
 
-- name: Install default OS packages
+- name: Install default and optional OS packages 
   ansible.builtin.dnf:
-    name: "{{ dnf_packages }}"
+    name: "{{ dnf_packages + dnf_additional_packages }}"
     state: installed
   become: true
